@@ -24,24 +24,26 @@ namespace filmsRESTapi.Controllers
         [HttpGet("GetById/{id}")]
         public async Task<ActionResult<Films>> GetById(int id)
         {
-            var result = await _filmsService.GetFilmsById(id);
-            if (result == null)
-            {
-                throw new Exception("Film doesn't exist");
-            }
+            var result = await _filmsService.GetFilmsById(id) ?? throw new Exception("Film doesn't exist");
             return result;
         }
 
         [HttpDelete("DeleteById/{id}")]
         public async Task<ActionResult<List<Films>>> DeleteById(int id)
         {
-            return await _filmsService.DeleteById(id) ?? throw new InvalidOperationException("Film doesn't exist");
+            return await _filmsService.DeleteById(id);
+        }
+
+        [HttpDelete("DeleteAllFilms")]
+        public async Task<ActionResult<List<Films>>> DeleteAllFilms()
+        {
+            return await _filmsService.DeleteAllFilms();
         }
 
         [HttpPost("AddNewFilm")]
         public async Task<ActionResult<List<Films>>> AddNewFilm(Films film)
         {
-            return await _filmsService.AddNewFilm(film) ?? throw new InvalidOperationException("Film doesn't exist");
+            return await _filmsService.AddNewFilm(film) ?? throw new InvalidOperationException("Do not enter the ID");
         }
 
         [HttpPut("UpdateNewFilm")]

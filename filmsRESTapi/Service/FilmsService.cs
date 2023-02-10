@@ -34,6 +34,13 @@ namespace filmsRESTapi.Service
             return await _dataContext.Films.ToListAsync();
         }
 
+        public async Task<List<Films>> DeleteAllFilms()
+        {
+            _dataContext.Films.RemoveRange(_dataContext.Films);
+            await _dataContext.SaveChangesAsync();
+            return await _dataContext.Films.ToListAsync();
+        }
+
         public async Task<List<Films>> AddNewFilm(Films film)
         {
             await _dataContext.Films.AddAsync(film);
